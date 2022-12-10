@@ -1,6 +1,7 @@
 from django.db import models
-from dateutils import relativedelta
+from dateutil.relativedelta import relativedelta
 from datetime import datetime
+from authapp.models import AbstractUserModel
 
 
 class CardsModel(models.Model):
@@ -11,24 +12,28 @@ class CardsModel(models.Model):
     )
 
     ENDDATE_CHOICES = (
-        (datetime.now() + relativedelta(years=1), 'Year'),
+        (datetime.now() + relativedelta(year=1), 'Year'),
         (datetime.now() + relativedelta(months=6), '6 months'),
-        (datetime.now() + relativedelta(months=1), '1 month')
+        (datetime.now() + relativedelta(month=1), '1 month')
     )
 
-    series = models.CharField(verbose_name="Seria")
-    number = models.CharField(verbose_name="Number")
+    user = models.ForeignKey(AbstractUserModel, on_delete=models.CASCADE)
+    series = models.CharField(verbose_name="Seria", max_length=4)
+    number = models.CharField(verbose_name="Number", max_length=16)
     release_date = models.DateTimeField(
         verbose_name="Release date", auto_now_add=True)
     end_date = models.DateTimeField(
-        verbose_name="Release date", default=datetime.now + relativedelta(years=1), choices=ENDDATE_CHOICES)
+        verbose_name="End date",  choices=ENDDATE_CHOICES)
     used_date = models.DateTimeField(
-        verbose_name="Release date", auto_now_add=True, auto_now=True)
-    balance = models.DecimalField(verbose_name="Balace", default=0)
-    status = models.CharField(choices=STATUS_CHOICES)
+        verbose_name="Used date", auto_now=True)
+    balance = models.DecimalField(
+        verbose_name="Balace", default=0, decimal_places=3, max_digits=5.2)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=150)
 
 
 class HistoryCardModel(models.Model):
     card = models.ForeignKey(CardsModel, on_delete=models.CASCADE)
-    place_purshace = models.CharField(verbose_name="Place of purshace")
-    purshace_amount = models.DecimalField(verbose_name="Purshace ampunt")
+    place_purshace = models.CharField(
+        verbose_name="Place of purshace", max_length=50)
+    purshace_amount = models.DecimalField(
+        verbose_name="Purshace ampunt", max_digits=5.2, decimal_places=3)
