@@ -11,7 +11,7 @@ class CardsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(CardsView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['user'] = self.request.user
+            context['user'] = self.request.user.id
             context['cards'] = CardsModel.objects.filter(user=context['user'])
         return context
 

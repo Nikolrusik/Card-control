@@ -11,23 +11,17 @@ class CardsModel(models.Model):
         ('OVERDUE', 'Просрочена')
     )
 
-    ENDDATE_CHOICES = (
-        (datetime.now() + relativedelta(year=1), 'Year'),
-        (datetime.now() + relativedelta(months=6), '6 months'),
-        (datetime.now() + relativedelta(month=1), '1 month')
-    )
-
     user = models.ForeignKey(AbstractUserModel, on_delete=models.CASCADE)
     series = models.CharField(verbose_name="Seria", max_length=4)
     number = models.CharField(verbose_name="Number", max_length=16)
     release_date = models.DateTimeField(
         verbose_name="Release date", auto_now_add=True)
     end_date = models.DateTimeField(
-        verbose_name="End date",  choices=ENDDATE_CHOICES)
+        verbose_name="End date", default=datetime.now() + relativedelta(year=1))
     used_date = models.DateTimeField(
         verbose_name="Used date", auto_now=True)
     balance = models.DecimalField(
-        verbose_name="Balace", default=0, decimal_places=3, max_digits=5.2)
+        verbose_name="Balace", default=0, decimal_places=2, max_digits=5)
     status = models.CharField(choices=STATUS_CHOICES, max_length=150)
 
 
