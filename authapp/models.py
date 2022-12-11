@@ -20,6 +20,6 @@ class AbstractUserModel(AbstractBaseUser, PermissionsMixin):
     #         "Designates whether the user can log into this admin site."
     #     ),
     # )
-    EMAIL_FIELD = "username"
+    EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []

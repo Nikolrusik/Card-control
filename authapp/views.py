@@ -23,7 +23,6 @@ class CustomLoginView(LoginView):
                 messages.WARNING,
                 mark_safe(f"Something goes worng:<br>{msg}"),
             )
-            pass
         return self.render_to_response(self.get_context_data(form=form))
 
 
@@ -35,6 +34,7 @@ class RegistrationFormView(TemplateView):
             if all(
                 (
                     request.POST.get("email"),
+                    request.POST.get('username'),
                     request.POST.get("password1"),
                     request.POST.get(
                         "password1") == request.POST.get("password2"),
@@ -42,7 +42,7 @@ class RegistrationFormView(TemplateView):
             ):
                 new_user = AbstractUserModel.objects.create(
                     email=request.POST.get("email"),
-
+                    username=request.POST.get('username')
                 )
                 new_user.set_password(request.POST.get("password1"))
                 new_user.save()

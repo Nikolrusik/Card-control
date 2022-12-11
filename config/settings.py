@@ -132,3 +132,5 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = "authapp.AbstractUserModel"
+LOGIN_REDIRECT_URL = "app:cards"
+LOGOUT_REDIRECT_URL = "authapp:login"
