@@ -11,5 +11,6 @@ urlpatterns = [
     path("card/<int:pk>/activate",
          views.card_activate, name="card_activate"),
     path("card/<int:pk>/deactivate", views.card_deactivate, name="card_deactivate"),
+    path("card_generator/", views.CardGenerator.as_view(), name="card_generator"),
 
 ]

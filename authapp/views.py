@@ -1,6 +1,6 @@
 from django.shortcuts import HttpResponseRedirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView
 from django.contrib import messages
 from django.utils.safestring import mark_safe
@@ -54,3 +54,9 @@ class RegistrationFormView(TemplateView):
             # )
             pass
             return HttpResponseRedirect(reverse_lazy("authapp:register"))
+
+
+class LogoutView(LogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        messages.add_message(self.request, messages.INFO, "See you later!")
+        return super().dispatch(request, *args, **kwargs)

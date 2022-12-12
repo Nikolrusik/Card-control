@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="form-signin w-50 m-auto">
+    <form method="POST"> 
+    {% csrf_token %}
+    <h1 class="h3 mb-3 fw-normal">Генерация карт</h1>
+        <div class="form-floating">
+      <label for="floatingInput">Количество генерируемых карт:</label>
+      <input
+        type="number"
+        name="range"
+        class="form-control"
+        id="floatingInput"
+        placeholder="10"
+      />
+    </div>
+        <div class="form-floating">
+      <label for="floatingInput">Период действия:</label>
+      <select class="form-control" name="period"> 
+        <option value="12">Год</option>
+        <option value="6">6 месяцев</option>
+        <option value="1">1 месяц</option>
+      </select>
+    </div>
+        <div class="form-floating">
+      <label for="floatingInput">Статус:</label>
+      <select class="form-control" name="status"> 
+        <option value="ACTIVATE">Активирована</option>
+        <option value="DEACTIVATE">Деактивирована</option>
+      </select>
+    </div>
+   <button class="w-100 btn btn-lg btn-primary" type="submit">
+      Регистрация
+    </button>
+    </form>
+    </main>
+{% endblock content %}
