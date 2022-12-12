@@ -17,7 +17,7 @@ class CardsModel(models.Model):
     release_date = models.DateTimeField(
         verbose_name="Release date", auto_now_add=True)
     end_date = models.DateTimeField(
-        verbose_name="End date", default=datetime.now() + relativedelta(year=1))
+        verbose_name="End date", auto_now=False)
     used_date = models.DateTimeField(
         verbose_name="Used date", auto_now=True)
     balance = models.DecimalField(
