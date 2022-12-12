@@ -1,8 +1,34 @@
 from urllib import request
-from django.shortcuts import render
+from django.shortcuts import HttpResponseRedirect, render
 from django.views.generic import View, TemplateView, ListView, CreateView, DetailView, DeleteView, UpdateView
 from django.shortcuts import get_object_or_404
 from .models import CardsModel, HistoryCardModel
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
+
+def card_deactivate(request, pk):
+    try:
+        card = CardsModel.objects.get(id=pk)
+
+        if request.method == "POST":
+            card.status = "DEACTIVATE"
+            card.save()
+            return HttpResponseRedirect(f"/card/{pk}")
+    except CardsModel.DoesNotExist:
+        return HttpResponseRedirect("/")
+
+
+def card_activate(request, pk):
+    try:
+        card = CardsModel.objects.get(id=pk)
+
+        if request.method == "POST":
+            card.status = "ACTIVATE"
+            card.save()
+            return HttpResponseRedirect(f"/card/{pk}")
+    except CardsModel.DoesNotExist:
+        return HttpResponseRedirect("/")
 
 
 class CardsView(TemplateView):
@@ -27,3 +53,9 @@ class CardDetailView(TemplateView):
         context['history_card'] = HistoryCardModel.objects.filter(
             card=context['card_object'])
         return context
+
+
+class CardDeleteView(DeleteView):
+    model = CardsModel
+    success_url = reverse_lazy("app:cards")
+    permission_required = ("app:delete_card",)

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<p class="lead">Баланс карты: {{card_object.balance}}</p>
+<p class="lead">Серия карты: {{card_object.series}}</p>
+<p class="lead">Номер карты: {{card_object.number}}</p>
+<p class="lead">Дата выпуска: {{card_object.release_date}}</p>
+<p class="lead">Дата окончания: {{card_object.end_date}}</p>
+<p class="lead">Дата последнего использования карты: {{card_object.used_date}}</p>
+<p class="lead">Баланс карты: {{card_object.balance}}</p>
+<p class="lead">Статус карты: {{card_object.status}}</p>
+{% if card_object.status == 'ACTIVATE' %}
+    <button form="form_deactivate_{{card_object.id}}" class="btn btn-warning"
+type="submit">Деактивировать</button>
+    <form style="display:none;" id="form_deactivate_{{card_object.id}}" class="btn btn-danger" action="{% url 'app:card_deactivate' pk=card_object.pk %}"
+method="post">{% csrf_token %}
+</form>
+{% else %}
+    <button form="form_activate_{{card_object.id}}" class="btn btn-success"
+type="submit">Активировать</button>
+    <form style="display:none;" id="form_activate_{{card_object.id}}" class="btn btn-danger" action="{% url 'app:card_activate' pk=card_object.pk %}"
+method="post">{% csrf_token %}
+</form>
+{% endif %}
+<button form="form_delete_{{card_object.id}}" class="btn btn-danger"
+type="submit">Удалить</button>
+<form style="display:none;" id="form_delete_{{card_object.id}}" class="btn btn-danger" action="{% url 'app:card_delete' pk=card_object.pk %}"
+method="post">{% csrf_token %}
+</form>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Место оплаты</th>
+      <th scope="col">Сумма</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for card in history_card %}
+    <tr >
+      <th scope="row">{{ card.id }}</th>
+      <td>{{ card.place_purshace }}</td>
+      <td>{{ card.purshace_amount }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

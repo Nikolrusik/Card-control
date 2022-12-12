@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block content %} {{ user }}
+{% extends 'base.html' %} 
+{% block content %}
 <table class="table table-hover">
   <thead>
     <tr>
@@ -12,7 +13,7 @@
   </thead>
   <tbody>
     {% for card in cards %}
-    <tr>
+    <tr onclick="document.location = '/card/{{ card.id }}'">
       <th scope="row">{{ card.id }}</th>
       <td>{{ card.series }}</td>
       <td>{{ card.number }}</td>
